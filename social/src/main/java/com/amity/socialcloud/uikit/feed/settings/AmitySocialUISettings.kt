@@ -1,5 +1,8 @@
 package com.amity.socialcloud.uikit.social
 
+import android.text.Spanned
+import androidx.core.text.toSpanned
+import com.amity.socialcloud.sdk.social.feed.AmityPost
 import com.amity.socialcloud.uikit.community.newsfeed.listener.AmityGlobalCommunityClickListener
 import com.amity.socialcloud.uikit.community.newsfeed.listener.AmityGlobalUserClickListener
 import com.amity.socialcloud.uikit.feed.settings.AmityDefaultPostViewHolders
@@ -21,7 +24,7 @@ object AmitySocialUISettings {
     private var postViewHolders: MutableMap<String, AmityPostRenderer> =
         AmityDefaultPostViewHolders.getDefaultMap()
 
-    lateinit var postMarkupProcessor: PostMarkupProcessor
+    var postMarkupProcessor: PostMarkupProcessor = noOpMarkupProcessor
 
     fun init(markupProcessor: PostMarkupProcessor) {
         postMarkupProcessor = markupProcessor
@@ -46,4 +49,9 @@ object AmitySocialUISettings {
         return AmityDefaultPostViewHolders.unknownViewHolder
     }
 
+}
+
+private val noOpMarkupProcessor = object: PostMarkupProcessor {
+    override fun toSpannedText(post: AmityPost): Spanned =
+        (post.getData() as? AmityPost.Data.TEXT)?.getText().orEmpty().toSpanned()
 }
