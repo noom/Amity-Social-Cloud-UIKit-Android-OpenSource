@@ -30,8 +30,8 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/tvNumberOfReactions"
-                style="@style/AmityTextStyleCaption"
+                android:id="@+id/tvNumberOfLikes"
+                style="@style/PostFooterLabelLikeCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/amity_padding_m1"
@@ -42,12 +42,11 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:textColorShade="@{AmityColorShade.SHADE2}"
                 tools:text="1.8k likes" />
 
             <TextView
                 android:id="@+id/tvNumberOfComments"
-                style="@style/AmityTextStyleCaption"
+                style="@style/PostFooterLabelCommentsCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/amity_padding_m1"
@@ -55,7 +54,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:textColorShade="@{AmityColorShade.SHADE2}"
                 tools:text="18 comments" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -84,19 +82,18 @@
 
             <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/cbLike"
-                style="@style/AmityTextStyleBodyBold"
+                style="@style/PostFooterLabelEngagementLike"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@drawable/amity_ic_like_selector"
                 android:paddingHorizontal="@dimen/amity_padding_xs"
-                android:text="@string/amity_like"
-                app:checkBoxCheckedColor="@{@color/amityColorPrimary}"
-                app:checkBoxDefaultColor="@{@color/amityColorBase}"
-                app:checkBoxDefaultShade="@{AmityColorShade.SHADE2}" />
+                app:checkBoxCheckedColor="@{@color/post_footer_like_checked}"
+                app:checkBoxDefaultColor="@{@color/post_footer_like_unchecked}"
+                android:text="@string/amity_like" />
 
             <TextView
                 android:id="@+id/cbComment"
-                style="@style/AmityTextStyleBodyBold"
+                style="@style/PostFooterLabelEngagementComment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/amity_padding_m1"
@@ -104,8 +101,7 @@
                 android:gravity="center_vertical"
                 android:text="@string/amity_comment"
                 android:textColor="@{@color/amityColorBase}"
-                app:drawableStartCompat="@drawable/amity_ic_comment"
-                app:textColorShade="@{AmityColorShade.SHADE2}" />
+                app:drawableStartCompat="@drawable/amity_ic_comment" />
 
             <TextView
                 android:id="@+id/cbShare"
