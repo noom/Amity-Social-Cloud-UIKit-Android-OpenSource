@@ -1,6 +1,5 @@
 subprojects {
   apply plugin: "maven-publish"
-  apply plugin: "digital.wup.android-maven-publish"
 
   afterEvaluate {
     // task that generates sources file(.jar) for java modules
@@ -44,7 +43,7 @@ subprojects {
               from components.java
             } else if (plugins.hasPlugin("android-library")) {
               artifact(androidSourcesJar)
-              from components.android
+              from components.findByName('android')
             }
           }
         }
