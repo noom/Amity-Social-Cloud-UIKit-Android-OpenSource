@@ -2,7 +2,7 @@ package com.amity.socialcloud.uikit.social
 
 import android.text.Spanned
 import androidx.core.text.toSpanned
-import com.amity.socialcloud.sdk.social.feed.AmityPost
+import com.amity.socialcloud.sdk.model.social.post.AmityPost
 import com.amity.socialcloud.uikit.community.newsfeed.listener.AmityGlobalCommunityClickListener
 import com.amity.socialcloud.uikit.community.newsfeed.listener.AmityGlobalUserClickListener
 import com.amity.socialcloud.uikit.feed.settings.AmityDefaultPostViewHolders

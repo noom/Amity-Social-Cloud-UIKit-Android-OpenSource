@@ -2,7 +2,7 @@ package com.amity.socialcloud.uikit.user
 
 import android.content.Context
 import androidx.core.content.ContextCompat
-import com.amity.socialcloud.sdk.core.user.AmityUser
+import com.amity.socialcloud.sdk.model.core.user.AmityUser
 import com.amity.socialcloud.uikit.community.R
 import com.amity.socialcloud.uikit.user.UserType.*
 import com.google.gson.JsonObject

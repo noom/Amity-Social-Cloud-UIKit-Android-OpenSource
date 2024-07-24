@@ -22,7 +22,7 @@ class AmityPostFooterPostEngagementViewHolder(
     override fun bind(data: AmityBasePostFooterItem, position: Int) {
         binding.executePendingBindings()
         val postEngagementData = data as AmityBasePostFooterItem.POST_ENGAGEMENT
-        setNumberOfReactions(postEngagementData.post.getReactionCount())
+        setNumberOfLikes(postEngagementData.post.getReactionMap().getCount(AmityConstants.POST_REACTION))
         val isReactedByMe =
             postEngagementData.post.getMyReactions().contains(AmityConstants.POST_REACTION)
         setUpLikeView(
@@ -34,7 +34,7 @@ class AmityPostFooterPostEngagementViewHolder(
         setReadOnlyMode(postEngagementData.isReadOnly)
         setShareOption(postEngagementData.post)
         setCommentListener(postEngagementData.post)
-        setReactionCountListener(postEngagementData.post)
+        setLikeCountListener(postEngagementData.post)
     }
 
     private fun setCommentListener(post: AmityPost) {
@@ -46,8 +46,8 @@ class AmityPostFooterPostEngagementViewHolder(
         }
     }
 
-    private fun setReactionCountListener(post: AmityPost) {
-        binding.tvNumberOfReactions.setOnClickListener {
+    private fun setLikeCountListener(post: AmityPost) {
+        binding.tvNumberOfLikes.setOnClickListener {
             reactionCountClickPublisher.onNext(ReactionCountClickEvent.Post(post))
         }
     }
@@ -61,9 +61,9 @@ class AmityPostFooterPostEngagementViewHolder(
         )
     }
 
-    private fun setNumberOfReactions(reactionCount: Int) {
-        binding.tvNumberOfReactions.visibility = if (reactionCount > 0) View.VISIBLE else View.GONE
-        binding.tvNumberOfReactions.text = binding.root.resources.getQuantityString(
+    private fun setNumberOfLikes(reactionCount: Int) {
+        binding.tvNumberOfLikes.visibility = if (reactionCount > 0) View.VISIBLE else View.GONE
+        binding.tvNumberOfLikes.text = binding.root.resources.getQuantityString(
             R.plurals.amity_feed_number_of_likes,
             reactionCount,
             reactionCount.readableNumber()
@@ -98,7 +98,7 @@ class AmityPostFooterPostEngagementViewHolder(
                 reactionEvent = PostEngagementClickEvent.Reaction(post, false)
             }
             postEngagementClickPublisher.onNext(reactionEvent)
-            setNumberOfReactions(displayReactionCount)
+            setNumberOfLikes(displayReactionCount)
             setUpLikeView(convertedValue, displayReactionCount, post)
         }
     }
