@@ -37,6 +37,11 @@ afterEvaluate {
     }
 }
 
+android {
+    namespace 'com.amity.socialcloud.uikit.chat'
+}
+
 dependencies {
-    implementation project(path: ':common')
+    api project(path: ':common')
+    api project(path: ':chat-compose')
 }

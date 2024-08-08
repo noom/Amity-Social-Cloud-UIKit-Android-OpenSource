@@ -22,6 +22,7 @@ import com.amity.socialcloud.uikit.common.contract.AmityPickImageContract
 import com.amity.socialcloud.uikit.common.utils.AmityAlertDialogUtil
 import com.amity.socialcloud.uikit.common.utils.AmityConstants
 import com.amity.socialcloud.uikit.community.R
+import com.amity.socialcloud.uikit.community.compose.community.profile.AmityCommunityProfilePageActivity
 import com.amity.socialcloud.uikit.community.data.AmitySelectCategoryItem
 import com.amity.socialcloud.uikit.community.databinding.AmityFragmentCreateCommunityBinding
 import com.amity.socialcloud.uikit.community.detailpage.AmityCommunityPageActivity
@@ -45,13 +46,12 @@ abstract class AmityCommunityCreateBaseFragment : RxFragment() {
     internal lateinit var binding: AmityFragmentCreateCommunityBinding
 
     private val pickImage = registerForActivityResult(AmityPickImageContract()) { data ->
-        if(data != null) {
+        if (data != null) {
             imageUri = data
             viewModel.initialStateChanged.set(true)
             Glide.with(this)
                 .load(data)
                 .centerCrop()
-                .placeholder(R.drawable.amity_ic_default_community_avatar)
                 .into(binding.ccAvatar)
         }
     }
@@ -80,7 +80,9 @@ abstract class AmityCommunityCreateBaseFragment : RxFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity() as AppCompatActivity).get(AmityCreateCommunityViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity() as AppCompatActivity).get(
+            AmityCreateCommunityViewModel::class.java
+        )
         binding.viewModel = viewModel
 
         binding.category.setOnClickListener {
@@ -114,9 +116,11 @@ abstract class AmityCommunityCreateBaseFragment : RxFragment() {
 
     private fun pickImage() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-            pickImagePermission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            pickImagePermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             pickImagePermission.launch(Manifest.permission.READ_MEDIA_IMAGES)
+        } else {
+            pickImagePermission.launch(Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED )
         }
     }
 
@@ -125,10 +129,6 @@ abstract class AmityCommunityCreateBaseFragment : RxFragment() {
     }
 
     open fun renderAvatar() {
-        Glide.with(requireContext())
-            .load(R.drawable.amity_ic_default_community_avatar)
-            .centerCrop()
-            .into(binding.ccAvatar)
     }
 
     private fun setAvatar() {
@@ -179,8 +179,8 @@ abstract class AmityCommunityCreateBaseFragment : RxFragment() {
             .doOnSuccess {
                 viewModel.communityId.set(it.getCommunityId())
                 viewModel.savedCommunityId = it.getCommunityId()
-                val detailIntent = AmityCommunityPageActivity
-                    .newIntent(requireContext(), it, true)
+                val detailIntent = AmityCommunityProfilePageActivity
+                    .newIntent(requireContext(), it.getCommunityId())
                 startActivity(detailIntent)
                 requireActivity().finish()
             }
@@ -248,10 +248,15 @@ abstract class AmityCommunityCreateBaseFragment : RxFragment() {
                                 createCommunity()
                             }
                         }
+
                         is AmityUploadResult.ERROR, AmityUploadResult.CANCELLED -> {
                             binding.btnCreateCommunity.isEnabled = true
-                            view?.showSnackBar(getString(R.string.amity_image_upload_error), Snackbar.LENGTH_SHORT)
+                            view?.showSnackBar(
+                                getString(R.string.amity_image_upload_error),
+                                Snackbar.LENGTH_SHORT
+                            )
                         }
+
                         else -> {
                         }
                     }

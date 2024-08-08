@@ -12,11 +12,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.ExperimentalPagingApi
 import com.amity.socialcloud.sdk.model.social.community.AmityCommunity
+import com.amity.socialcloud.sdk.model.social.story.AmityStory
 import com.amity.socialcloud.uikit.common.base.AmityFragmentStateAdapter
 import com.amity.socialcloud.uikit.common.common.setSafeOnClickListener
 import com.amity.socialcloud.uikit.common.common.views.dialog.bottomsheet.AmityBottomSheetDialog
 import com.amity.socialcloud.uikit.common.common.views.dialog.bottomsheet.BottomSheetMenuItem
 import com.amity.socialcloud.uikit.community.R
+import com.amity.socialcloud.uikit.community.compose.AmitySocialBehaviorHelper
 import com.amity.socialcloud.uikit.community.databinding.AmityFragmentCommunityPageBinding
 import com.amity.socialcloud.uikit.community.newsfeed.activity.AmityLiveStreamPostCreatorActivity
 import com.amity.socialcloud.uikit.community.newsfeed.activity.AmityPollPostCreatorActivity
@@ -43,6 +45,10 @@ class AmityCommunityPageFragment : RxFragment(),
     private lateinit var viewModel: AmityCommunityDetailViewModel
     private lateinit var fragmentStateAdapter: AmityFragmentStateAdapter
     private var refreshEventPublisher = PublishSubject.create<AmityFeedRefreshEvent>()
+
+    private val behavior by lazy {
+        AmitySocialBehaviorHelper.storyTabComponentBehavior
+    }
 
     private val createGenericPost =
         registerForActivityResult(AmityPostCreatorActivity.AmityCreateCommunityPostActivityContract()) {
@@ -196,9 +202,9 @@ class AmityCommunityPageFragment : RxFragment(),
     private fun navigateToCreatePost() {
         val bottomSheet = AmityBottomSheetDialog(requireContext())
         val postCreationOptions =
-            arrayListOf(
+            mutableListOf(
                 BottomSheetMenuItem(
-                    iconResId = R.drawable.ic_amity_ic_post_create,
+                    iconResId = R.drawable.amity_ic_post_create,
                     titleResId = R.string.amity_post,
                     action = {
                         createGenericPost.launch(viewModel.communityId)
@@ -223,6 +229,23 @@ class AmityCommunityPageFragment : RxFragment(),
                 )
             )
 
+        if (viewModel.hasManageStoryPermission) {
+            postCreationOptions.add(
+                index = 1,
+                BottomSheetMenuItem(
+                    iconResId = R.drawable.amity_ic_story_create,
+                    titleResId = R.string.amity_story,
+                    action = {
+                        behavior.goToCreateStoryPage(
+                            context = requireContext(),
+                            targetId = viewModel.communityId ?: "",
+                            targetType = AmityStory.TargetType.COMMUNITY,
+                        )
+                        bottomSheet.dismiss()
+                    }
+                )
+            )
+        }
         bottomSheet.show(postCreationOptions)
     }
 

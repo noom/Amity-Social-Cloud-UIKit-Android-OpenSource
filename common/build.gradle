@@ -4,6 +4,8 @@ apply from: "../publish.gradle"
 
 
 android {
+    namespace 'com.amity.socialcloud.uikit.common'
+
     buildFeatures {
         dataBinding = true
         viewBinding = true
