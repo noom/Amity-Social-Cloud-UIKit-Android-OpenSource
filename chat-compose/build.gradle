@@ -2,6 +2,7 @@ apply from: "../buildsystem/activity.gradle"
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply from: "../publish.gradle"
 
 android {
     namespace 'com.amity.socialcloud.uikit.chat.compose'
@@ -20,6 +21,38 @@ android {
         pickFirst("META-INF/*.kotlin_module")
         exclude 'META-INF/INDEX.LIST'
         exclude 'META-INF/io.netty.versions.properties'
+    }
+
+    publishing {
+        singleVariant('release')
+    }
+}
+
+afterEvaluate {
+    publishing {
+        repositories {
+            maven {
+                name = "AmityFork"
+                url = uri("https://maven.pkg.github.com/noom/Amity-Social-Cloud-UIKit-Android-OpenSource")
+                credentials {
+                    username = System.getenv("NOOM_GITHUB_PACKAGES_USERNAME")
+                            ?: System.getenv("GITHUB_PACKAGES_USERNAME")
+
+                    password = System.getenv("NOOM_GITHUB_PACKAGES_TOKEN")
+                            ?: System.getenv("GITHUB_PACKAGES_TOKEN")
+                }
+            }
+        }
+
+        publications {
+            release(MavenPublication) {
+                artifactId = "$project.name"
+                // Applies the component for the release build variant
+                from components.release
+                // Adds javadocs and sources as separate jars.
+                artifact androidSourcesJar
+            }
+        }
     }
 }
 
