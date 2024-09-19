@@ -29,7 +29,23 @@
     }
   },
   "excludes": [
-    "*/post_content/share_button"
+    "*/post_content/share_button",
+    "*/story_tab_component/*",
+    "create_story_page/*/back_button",
+    "create_story_page/*/aspect_ratio_button",
+    "create_story_page/*/story_hyperlink_button",
+    "create_story_page/*/hyper_link",
+    "create_story_page/*/share_story_button",
+    "story_page/*/progress_bar",
+    "story_page/*/overflow_menu",
+    "story_page/*/close_button",
+    "story_page/*/story_impression_button",
+    "story_page/*/story_comment_button",
+    "story_page/*/story_reaction_button",
+    "story_page/*/create_new_story_button",
+    "story_page/*/speaker_button",
+    "*/story_tab_component/story_ring",
+    "*/story_tab_component/create_new_story_button"
   ],
   "message_reactions": [
     {
