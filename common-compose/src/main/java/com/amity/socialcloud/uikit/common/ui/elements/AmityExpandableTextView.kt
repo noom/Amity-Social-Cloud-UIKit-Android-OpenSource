@@ -34,6 +34,8 @@ fun AmityExpandableText(
     mentionGetter: AmityMentionMetadataGetter,
     mentionees: List<AmityMentionee>,
     style: TextStyle = AmityTheme.typography.body,
+    // noom update
+    onMetionClick: (String) -> Unit = {},
     onClick: () -> Unit = {},
 ) {
     val uriHandler = LocalUriHandler.current
@@ -126,7 +128,8 @@ fun AmityExpandableText(
         val layoutResult = remember { mutableStateOf<TextLayoutResult?>(null) }
         val pressIndicator = Modifier.pointerInput(Unit) {
             detectTapGestures(
-                onPress = { offset ->
+                // noom update
+                onTap = { offset ->
                     layoutResult.value?.let {
                         val position = it.getOffsetForPosition(offset)
                         val annotations = annotatedString.getStringAnnotations(
@@ -147,6 +150,17 @@ fun AmityExpandableText(
                         )
                         if (seeMoreAnnotation.isNotEmpty()) {
                             isReadMoreClicked = true
+                            return@let
+                        }
+
+                        val userMentions = annotatedString.getStringAnnotations(
+                            tag = "USER_MENTION",
+                            start = position,
+                            end = position
+                        )
+                        if (userMentions.isNotEmpty()) {
+                            val user = userMentions.first().item
+                            onMetionClick(user)
                             return@let
                         }
 

@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.amity.socialcloud.sdk.helper.core.mention.AmityMentionMetadataGetter
@@ -16,6 +17,7 @@ import com.amity.socialcloud.sdk.model.social.comment.AmityComment
 import com.amity.socialcloud.uikit.common.ui.elements.AmityExpandableText
 import com.amity.socialcloud.uikit.common.ui.theme.AmityTheme
 import com.amity.socialcloud.uikit.common.utils.isCreatorCommunityModerator
+import com.amity.socialcloud.uikit.community.compose.AmitySocialBehaviorHelper
 import com.amity.socialcloud.uikit.community.compose.comment.query.elements.AmityCommentModeratorBadge
 import com.google.gson.JsonObject
 
@@ -30,6 +32,11 @@ fun AmityCommentContentContainer(
     val commentText = remember(comment.getCommentId(), comment.getEditedAt()) {
         (comment.getData() as? AmityComment.Data.TEXT)?.getText() ?: ""
     }
+
+    val behavior = remember {
+        AmitySocialBehaviorHelper.noomUserMentionBehavior
+    }
+    val context = LocalContext.current
 
     Column(
         verticalArrangement = Arrangement.spacedBy(4.dp),
@@ -59,7 +66,10 @@ fun AmityCommentContentContainer(
             mentionGetter = mentionGetter,
             mentionees = comment.getMentionees(),
             style = AmityTheme.typography.body,
-            modifier = modifier.testTag("comment_list/comment_bubble_comment_text_view")
+            modifier = modifier.testTag("comment_list/comment_bubble_comment_text_view"),
+            onMetionClick = {
+                behavior.goToUserProfilePage(context, it)
+            }
         )
     }
 }

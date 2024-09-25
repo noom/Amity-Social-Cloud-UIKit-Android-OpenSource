@@ -90,4 +90,6 @@ object AmitySocialBehaviorHelper {
 
     var communityMembershipPageBehavior: AmityCommunityMembershipPageBehavior =
         AmityCommunityMembershipPageBehavior()
+
+    var noomUserMentionBehavior: NoomUserMentionBehavior = NoomUserMentionBehavior()
 }
