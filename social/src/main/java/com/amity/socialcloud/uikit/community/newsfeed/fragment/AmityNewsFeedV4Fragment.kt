@@ -77,14 +77,6 @@ class AmityNewsFeedV4Fragment : AmityBaseFragment() {
                         bottomSheet.dismiss()
                     }
                 ),
-                BottomSheetMenuItem(
-                    iconResId = R.drawable.amity_ic_story_create,
-                    titleResId = R.string.amity_story,
-                    action = {
-                        creationTargetSelection.launch(AmityTargetSelectionPageType.STORY)
-                        bottomSheet.dismiss()
-                    }
-                ),
             )
         bottomSheet.show(postCreationOptions)
     }

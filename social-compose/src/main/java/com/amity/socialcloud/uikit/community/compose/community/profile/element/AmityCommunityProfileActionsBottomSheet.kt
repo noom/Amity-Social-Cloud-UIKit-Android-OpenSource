@@ -107,22 +107,6 @@ fun AmityCommunityProfileActionsContainer(
 					)
 				)
 			}
-
-			AmityBottomSheetActionItem(
-				icon = R.drawable.amity_ic_create_story_social,
-				text = "Story",
-				modifier = modifier,
-			) {
-				onDismiss()
-				behavior.goToCreateStoryPage(
-					AmityCommunityProfilePageBehavior.Context(
-						pageContext = context,
-						activityLauncher = launcher,
-						community = community,
-					)
-				)
-			}
-			
 		}
 	}
 }
