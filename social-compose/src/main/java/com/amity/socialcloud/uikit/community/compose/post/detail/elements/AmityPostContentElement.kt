@@ -5,11 +5,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.amity.socialcloud.sdk.helper.core.mention.AmityMentionMetadataGetter
 import com.amity.socialcloud.sdk.model.social.post.AmityPost
 import com.amity.socialcloud.uikit.common.ui.elements.AmityExpandableText
 import com.amity.socialcloud.uikit.common.ui.theme.AmityTheme
+import com.amity.socialcloud.uikit.community.compose.AmitySocialBehaviorHelper
 import com.google.gson.JsonObject
 
 @Composable
@@ -25,6 +27,11 @@ fun AmityPostContentElement(
 
     if (text.isEmpty()) return
 
+    val behavior = remember {
+        AmitySocialBehaviorHelper.noomUserMentionBehavior
+    }
+    val context = LocalContext.current
+
     Box(
         modifier = modifier.padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
@@ -35,6 +42,9 @@ fun AmityPostContentElement(
             mentionees = post.getMentionees(),
             style = AmityTheme.typography.body,
             onClick = onClick,
+            onMetionClick = {
+                behavior.goToUserProfilePage(context, it)
+            }
         )
     }
 }

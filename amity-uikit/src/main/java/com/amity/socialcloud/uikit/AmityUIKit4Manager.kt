@@ -44,5 +44,6 @@ object AmityUIKit4Manager {
         behavior.myCommunitiesComponentBehavior = AmityCustomMyCommunitiesComponentBehavior()
         behavior.postContentComponentBehavior = AmityCustomPostContentComponentBehavior()
         behavior.communityMembershipPageBehavior = AmityCustomCommunityMembershipPageBehavior()
+        behavior.noomUserMentionBehavior = NoomCustomUserMentionBehavior()
     }
 }
