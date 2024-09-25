@@ -11,7 +11,7 @@ android {
     namespace 'com.amity.socialcloud.uikit.sample'
 
     defaultConfig {
-        applicationId "com.amity.sample.ascuikit"
+        applicationId "com.noom.amity.sample"
         minSdkVersion 21
         targetSdkVersion 34
         versionCode 1
