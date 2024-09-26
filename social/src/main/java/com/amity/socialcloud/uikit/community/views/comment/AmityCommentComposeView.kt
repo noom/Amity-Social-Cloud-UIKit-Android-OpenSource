@@ -86,7 +86,7 @@ class AmityCommentComposeView : MentionsEditText {
             MentionSpanConfig.Builder()
                 .setMentionTextColor(
                     // noom update
-                    ContextCompat.getColor(context, R.color.upstraColorHighlight)
+                    ContextCompat.getColor(context, R.color.amityColorHighlight)
                 ).build()
         )
     }

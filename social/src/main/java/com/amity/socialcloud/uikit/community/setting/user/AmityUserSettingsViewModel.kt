@@ -93,15 +93,10 @@ class AmityUserSettingsViewModel (private val savedState: SavedStateHandle) : Am
                 val settingsItems = mutableListOf<AmitySettingsItem>()
                 val separator = AmitySettingsItem.Separator
 
+                // noom change - remove block and unfollow
                 settingsItems.add(menuCreator.createManageHeader())
-                if (followInfo.getStatus() == AmityFollowStatus.ACCEPTED) {
-                    settingsItems.add(AmitySettingsItem.Margin(R.dimen.amity_padding_xs))
-                    settingsItems.add(menuCreator.createUnfollowMenu(user.getUserId()))
-                }
                 settingsItems.add(AmitySettingsItem.Margin(R.dimen.amity_padding_xs))
                 settingsItems.add(menuCreator.createReportUserMenu(user))
-                settingsItems.add(AmitySettingsItem.Margin(R.dimen.amity_padding_xs))
-                settingsItems.add(menuCreator.createBlockUserMenu(followInfo.getStatus()))
                 settingsItems.add(AmitySettingsItem.Margin(R.dimen.amity_padding_xs))
                 settingsItems.add(separator)
                 settingsItems

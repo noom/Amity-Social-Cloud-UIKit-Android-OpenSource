@@ -75,7 +75,7 @@ class AmityCommentComposeView(context: Context) : MentionsEditText(context) {
                 .setMentionTextColor(
                     ContextCompat.getColor(
                         context,
-                        R.color.amityColorPrimary
+                        R.color.amityColorHighlight
                     )
                 ).build()
         )

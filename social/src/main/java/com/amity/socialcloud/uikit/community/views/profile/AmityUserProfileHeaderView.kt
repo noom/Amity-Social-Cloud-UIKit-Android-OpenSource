@@ -60,72 +60,11 @@ class AmityUserProfileHeaderView : ConstraintLayout {
         )
     }
 
-    fun setMyFollowInfo(followInfo: AmityMyFollowInfo) {
-        headerBinding.tvFollowersCount.setText(
-            getStylisedText(
-                followInfo.getFollowerCount().toString(),
-                context.getString(R.string.amity_followers)
-            ),
-            TextView.BufferType.SPANNABLE
-        )
-        headerBinding.tvFollowingCount.setText(
-            getStylisedText(
-                followInfo.getFollowingCount().toString(),
-                context.getString(R.string.amity_following_count)
-            ),
-            TextView.BufferType.SPANNABLE
-        )
-        headerBinding.isSelf = true
-        headerBinding.followStatus = AmityFollowStatus.ACCEPTED
-
-        if (followInfo.getPendingRequestCount() > 0) {
-            headerBinding.layoutPendingRequests.visibility = View.VISIBLE
-        } else {
-            headerBinding.layoutPendingRequests.visibility = View.GONE
-        }
-    }
-
-    fun setUserFollowInfo(userFollowInfo: AmityUserFollowInfo) {
-        headerBinding.tvFollowersCount.setText(
-            getStylisedText(
-                userFollowInfo.getFollowerCount().toString(),
-                context.getString(R.string.amity_followers)
-            ),
-            TextView.BufferType.SPANNABLE
-        )
-        headerBinding.tvFollowingCount.setText(
-            getStylisedText(
-                userFollowInfo.getFollowingCount().toString(),
-                context.getString(R.string.amity_following_count)
-            ),
-            TextView.BufferType.SPANNABLE
-        )
-        updateState(userFollowInfo.getStatus())
-
-    }
-
-    private fun setTextColor(followStatus: AmityFollowStatus) {
-        val textColor = when (followStatus) {
-            AmityFollowStatus.NONE, AmityFollowStatus.PENDING -> {
-                AmityColorPaletteUtil.getColor(
-                    ContextCompat.getColor(context, R.color.amityColorBase), AmityColorShade.SHADE2
-                )
-            }
-            else -> {
-                ContextCompat.getColor(context, R.color.amityColorBase)
-            }
-        }
-        headerBinding.tvPostCount.setTextColor(textColor)
-        headerBinding.tvFollowingCount.setTextColor(textColor)
-        headerBinding.tvFollowersCount.setTextColor(textColor)
+    fun setIsSelf(isSelf: Boolean) {
+        headerBinding.isSelf = isSelf
     }
 
     fun getHeaderBinding(): AmityViewUserProfileHeaderBinding = headerBinding
-
-    fun updateState(newState: AmityFollowStatus) {
-        headerBinding.followStatus = newState
-        setTextColor(newState)
-    }
 
     private fun init() {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
