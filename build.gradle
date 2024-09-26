@@ -37,7 +37,7 @@ plugins {
 
 allprojects {
     group = 'com.noom.amity'
-    version = '1.0.5-beta05'
+    version = '1.0.5-beta06'
     repositories {
         mavenCentral()
         google()
