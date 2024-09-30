@@ -21,7 +21,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:tabIndicatorColor="@color/amityColorPrimary"
         app:tabIndicatorFullWidth="false"
-        app:tabMode="auto" />
+        app:tabMode="auto"
+        app:tabTextAppearance="@style/ProfileTabTextAppearance" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewpager"
