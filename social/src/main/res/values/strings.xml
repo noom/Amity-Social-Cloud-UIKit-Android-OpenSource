@@ -67,7 +67,7 @@
     <string name="amity_message">Message</string>
     <string name="amity_join">Join</string>
     <string name="amity_join_community_message">Join community to interact with all posts</string>
-    <string name="amity_timeline">TIMELINE</string>
+    <string name="amity_timeline">Timeline</string>
     <string name="amity_no_post">No posts yet</string>
     <string name="amity_start_post">Start your first post</string>
     <string name="amity_no_user_found">No user found</string>

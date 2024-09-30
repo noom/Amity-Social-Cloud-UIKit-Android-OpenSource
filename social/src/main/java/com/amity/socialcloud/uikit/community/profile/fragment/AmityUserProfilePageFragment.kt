@@ -203,7 +203,6 @@ class AmityUserProfilePageFragment : AmityBaseFragment(),
         Handler(Looper.getMainLooper()).postDelayed({
             binding.refreshLayout.isRefreshing = false
         }, 1000)
-        getFollowInfo()
     }
 
     private fun setHeaderViewClickListeners() {
@@ -218,72 +217,6 @@ class AmityUserProfilePageFragment : AmityBaseFragment(),
                             startActivity(intent)
                         }
                     }
-                }
-            }
-
-            btnFollow.setOnClickListener {
-                binding.userProfileHeader.updateState(AmityFollowStatus.PENDING)
-                viewModel.sendFollowRequest(onSuccess = {
-                    binding.userProfileHeader.updateState(it)
-                }, onError = {
-                    showErrorDialog(
-                        getString(R.string.amity_follow_error, currentUser.getDisplayName()),
-                        getString(R.string.amity_something_went_wrong_pls_try),
-                        AmityFollowStatus.NONE
-                    )
-                }).untilLifecycleEnd(this@AmityUserProfilePageFragment)
-                    .subscribe()
-            }
-
-            btnCancelRequest.setOnClickListener {
-                binding.userProfileHeader.updateState(AmityFollowStatus.NONE)
-                viewModel.unFollow().doOnError {
-                    showErrorDialog(
-                        getString(R.string.amity_unfollow_error, currentUser.getDisplayName()),
-                        getString(R.string.amity_something_went_wrong_pls_try),
-                        AmityFollowStatus.PENDING
-                    )
-                }.untilLifecycleEnd(this@AmityUserProfilePageFragment)
-                    .subscribe()
-            }
-
-            btnUnblockRequest.setOnClickListener {
-                binding.userProfileHeader.updateState(AmityFollowStatus.NONE)
-                viewModel.unblock().doOnError {
-                    showErrorDialog(
-                        getString(R.string.amity_unblock_error, currentUser.getDisplayName()),
-                        getString(R.string.amity_something_went_wrong_pls_try),
-                        AmityFollowStatus.BLOCKED
-                    )
-                }.untilLifecycleEnd(this@AmityUserProfilePageFragment)
-                    .subscribe()
-            }
-
-            layoutPendingRequests.setOnClickListener {
-                val intent =
-                    AmityFollowRequestsActivity.newIntent(requireContext(), viewModel.userId)
-                startActivity(intent)
-            }
-
-            tvFollowersCount.setOnClickListener {
-                if (followStatus == AmityFollowStatus.ACCEPTED) {
-                    val intent = AmityUserFollowersActivity.newIntent(
-                        requireContext(),
-                        currentUser.getDisplayName(),
-                        viewModel.userId
-                    )
-                    startActivity(intent)
-                }
-            }
-
-            tvFollowingCount.setOnClickListener {
-                if (followStatus == AmityFollowStatus.ACCEPTED) {
-                    val intent = AmityUserFollowersActivity.newIntent(
-                        requireContext(),
-                        currentUser.getDisplayName(),
-                        viewModel.userId
-                    )
-                    startActivity(intent)
                 }
             }
         }
@@ -305,31 +238,8 @@ class AmityUserProfilePageFragment : AmityBaseFragment(),
                     })
             )
         }
-        getFollowInfo()
-    }
 
-    private fun getFollowInfo() {
-        if (viewModel.isSelfUser()) {
-            viewModel.getMyFollowInfo(
-                onSuccess = {
-                    binding.userProfileHeader.setMyFollowInfo(it)
-                },
-                onError = {
-                    Timber.e(TAG, "getMyFollowInfo: ${it.localizedMessage}")
-                }
-            ).untilLifecycleEnd(this)
-                .subscribe()
-        } else {
-            viewModel.getUserFollowInfo(
-                onSuccess = {
-                    binding.userProfileHeader.setUserFollowInfo(it)
-                },
-                onError = {
-                    Timber.e(TAG, "getUserFollowInfo: ${it.localizedMessage}")
-                }
-            ).untilLifecycleEnd(this)
-                .subscribe()
-        }
+        binding.userProfileHeader.setIsSelf(viewModel.isSelfUser())
     }
 
     private fun initTabLayout() {
@@ -365,17 +275,6 @@ class AmityUserProfilePageFragment : AmityBaseFragment(),
                 .feedRefreshEvents(refreshEventPublisher.toFlowable(BackpressureStrategy.BUFFER))
                 .build(activity as AppCompatActivity)
         }
-    }
-
-    private fun showErrorDialog(title: String, description: String, prevState: AmityFollowStatus) {
-        AmityAlertDialogUtil.showDialog(requireContext(), title, description,
-            getString(R.string.amity_ok), null,
-            DialogInterface.OnClickListener { dialog, which ->
-                if (which == DialogInterface.BUTTON_POSITIVE) {
-                    dialog.cancel()
-                    binding.userProfileHeader.updateState(prevState)
-                }
-            })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
