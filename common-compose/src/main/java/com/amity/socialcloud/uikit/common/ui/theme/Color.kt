@@ -111,13 +111,13 @@ data class AmityColors(
         val backgroundShade1 = theme.backgroundShade1Color.asColor()
 
         val newsfeedDivider = if (isSystemInDarkTheme) {
-            Color.Black
+            baseShade4 // noom temp fix
         } else {
             baseShade4
         }
 
         val sheetBackground = if (isSystemInDarkTheme) {
-            baseShade4
+            background // noom temp fix
         } else {
             background
         }
