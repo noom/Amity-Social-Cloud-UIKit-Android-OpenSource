@@ -126,9 +126,8 @@ fun AmityExpandableText(
             }
         }
         val layoutResult = remember { mutableStateOf<TextLayoutResult?>(null) }
-        val pressIndicator = Modifier.pointerInput(Unit) {
+        val pressIndicator = Modifier.pointerInput(annotatedString) {
             detectTapGestures(
-                // noom update
                 onTap = { offset ->
                     layoutResult.value?.let {
                         val position = it.getOffsetForPosition(offset)

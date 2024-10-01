@@ -26,7 +26,7 @@ fun AmityCommentContentContainer(
     modifier: Modifier = Modifier,
     comment: AmityComment,
 ) {
-    val mentionGetter = remember {
+    val mentionGetter = remember(comment.getCommentId(), comment.getEditedAt()) {
         AmityMentionMetadataGetter(comment.getMetadata() ?: JsonObject())
     }
     val commentText = remember(comment.getCommentId(), comment.getEditedAt()) {
